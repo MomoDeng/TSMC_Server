@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Momoyea\\source\\repos\\Test_Client\\Test_Client\\Test_Client.csproj",
+      "projectUniqueName": "C:\\Users\\Momoyea\\source\\repos\\TSMC_MyServer\\Test_Client\\Test_Client\\Test_Client.csproj",
       "projectName": "Test_Client",
-      "projectPath": "C:\\Users\\Momoyea\\source\\repos\\Test_Client\\Test_Client\\Test_Client.csproj",
+      "projectPath": "C:\\Users\\Momoyea\\source\\repos\\TSMC_MyServer\\Test_Client\\Test_Client\\Test_Client.csproj",
       "packagesPath": "C:\\Users\\Momoyea\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Momoyea\\source\\repos\\Test_Client\\Test_Client\\obj\\",
+      "outputPath": "C:\\Users\\Momoyea\\source\\repos\\TSMC_MyServer\\Test_Client\\Test_Client\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Momoyea\\AppData\\Roaming\\NuGet\\NuGet.Config",

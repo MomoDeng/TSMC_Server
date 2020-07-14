@@ -92,7 +92,7 @@ public class Caller {
 		string _repMsg = string.Empty; //response Msg
 
 		while (true) {
-			_msg = GetMsg();
+			_msg = ReceiveMsg();
 			_repMsg = Table.GetMsgRespose(_msg);
 			Thread.Sleep(1000);
 			SendMsg(_repMsg);
@@ -101,31 +101,32 @@ public class Caller {
 
 	}
 
-	public string GetMsg() {
+	public string ReceiveMsg() {
 		Console.WriteLine("---GetMsg Start---");
 
-		byte[] receivedBuffer = new byte[100];
+		byte[] receivedBuffer = new byte[_client.ReceiveBufferSize];
 
         NetworkStream stream = _client.GetStream();
+		StringBuilder msg = new StringBuilder();
 
-        stream.Read(receivedBuffer, 0, receivedBuffer.Length);
+		/// stream 要準備好才可讀取
+		if (stream.CanRead) {
+			do
+			{
+				stream.Read(receivedBuffer, 0, receivedBuffer.Length);
 
-		Console.WriteLine("rLen: " + receivedBuffer.Length);
+				foreach (byte b in receivedBuffer)
+				{
+					if (b.Equals(00)){
+						break; } // 00 == NULL
+					else
+					{	msg.Append(Convert.ToChar(b).ToString());}
+				}
+			} while (stream.DataAvailable);
+		}
 
-        StringBuilder msg = new StringBuilder();
 
-        foreach (byte b in receivedBuffer)
-        {
-            if (b.Equals(00)) // 00 == NULL
-            {
-                break;
-            }
-            else
-            {
-                msg.Append(Convert.ToChar(b).ToString());
-            }
 
-        }
 		Console.WriteLine(msg.ToString());
 		Console.WriteLine("---GetMsg Over---");
 		return msg.ToString();
@@ -141,7 +142,13 @@ public class Caller {
 
 		NetworkStream stream = _client.GetStream();
 		stream = _client.GetStream();
-        stream.Write(sendData, 0, sendData.Length);
+
+		/// stream 要準備好才可寫
+		if (stream.CanWrite) {
+			stream.Write(sendData, 0, sendData.Length);
+		}
+		
+
 		Console.WriteLine("Send: " + _repMsg);
 		Console.WriteLine("---SendMsg over---");
 

@@ -11,7 +11,7 @@ namespace Test_Client
         
         static void Main(string[] args)
         {
-
+            ///
             Console.WriteLine("Client Main Start~");
 
             client client = new client();

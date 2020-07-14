@@ -11,3 +11,16 @@ C:\Users\Momoyea\source\repos\TestServer\TestServer\obj\Debug\netcoreapp3.1\Test
 C:\Users\Momoyea\source\repos\TestServer\TestServer\obj\Debug\netcoreapp3.1\TestServer.dll
 C:\Users\Momoyea\source\repos\TestServer\TestServer\obj\Debug\netcoreapp3.1\TestServer.pdb
 C:\Users\Momoyea\source\repos\TestServer\TestServer\obj\Debug\netcoreapp3.1\TestServer.genruntimeconfig.cache
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\bin\Debug\netcoreapp3.1\TestServer.exe
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\bin\Debug\netcoreapp3.1\TestServer.deps.json
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\bin\Debug\netcoreapp3.1\TestServer.runtimeconfig.json
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\bin\Debug\netcoreapp3.1\TestServer.runtimeconfig.dev.json
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\bin\Debug\netcoreapp3.1\TestServer.dll
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\bin\Debug\netcoreapp3.1\TestServer.pdb
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\obj\Debug\netcoreapp3.1\TestServer.csprojAssemblyReference.cache
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\obj\Debug\netcoreapp3.1\TestServer.AssemblyInfoInputs.cache
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\obj\Debug\netcoreapp3.1\TestServer.AssemblyInfo.cs
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\obj\Debug\netcoreapp3.1\TestServer.csproj.CoreCompileInputs.cache
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\obj\Debug\netcoreapp3.1\TestServer.dll
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\obj\Debug\netcoreapp3.1\TestServer.pdb
+C:\Users\Momoyea\source\repos\TSMC_MyServer\TestServer\TestServer\obj\Debug\netcoreapp3.1\TestServer.genruntimeconfig.cache

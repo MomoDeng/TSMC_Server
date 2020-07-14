@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Momoyea\\source\\repos\\TestServer\\TestServer\\TestServer.csproj": {}
+    "C:\\Users\\Momoyea\\source\\repos\\TSMC_MyServer\\TestServer\\TestServer\\TestServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Momoyea\\source\\repos\\TestServer\\TestServer\\TestServer.csproj": {
+    "C:\\Users\\Momoyea\\source\\repos\\TSMC_MyServer\\TestServer\\TestServer\\TestServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Momoyea\\source\\repos\\TestServer\\TestServer\\TestServer.csproj",
+        "projectUniqueName": "C:\\Users\\Momoyea\\source\\repos\\TSMC_MyServer\\TestServer\\TestServer\\TestServer.csproj",
         "projectName": "TestServer",
-        "projectPath": "C:\\Users\\Momoyea\\source\\repos\\TestServer\\TestServer\\TestServer.csproj",
+        "projectPath": "C:\\Users\\Momoyea\\source\\repos\\TSMC_MyServer\\TestServer\\TestServer\\TestServer.csproj",
         "packagesPath": "C:\\Users\\Momoyea\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Momoyea\\source\\repos\\TestServer\\TestServer\\obj\\",
+        "outputPath": "C:\\Users\\Momoyea\\source\\repos\\TSMC_MyServer\\TestServer\\TestServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Momoyea\\AppData\\Roaming\\NuGet\\NuGet.Config",
