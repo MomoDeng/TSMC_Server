@@ -36,17 +36,17 @@ namespace SocketServer
             {
                 if (threads.Count >= MaxinumOfThread)
                 {
-                    List<int> rmTmpList = new List<int>();
+                    List<Thread> rmTmpList = new List<Thread>();
                     for (int i = 0; i < threads.Count; i++)
                     {
-                        if (threads[i].ThreadState == ThreadState.Aborted)
+                        if (threads[i].ThreadState == ThreadState.Stopped)
                         {
-                            rmTmpList.Add(i);
+                            rmTmpList.Add(threads[i]);
                         }
                     }
                     for (int i = 0; i < rmTmpList.Count; i++)
                     {
-                        threads.RemoveAt(rmTmpList[i]);
+                        threads.Remove(rmTmpList[i]);
                     }
                     Thread.Sleep(500);
                 }
@@ -60,7 +60,6 @@ namespace SocketServer
                         HandleClient handleClient = new HandleClient(tmpTcpClient, numberOfClients);
                         Thread myThread = new Thread(new ThreadStart(handleClient.Communicate));
                         numberOfClients += 1;
-                        myThread.IsBackground = true;
                         myThread.Start();
                         myThread.Name = tmpTcpClient.Client.RemoteEndPoint.ToString();
                         threads.Add(myThread);
