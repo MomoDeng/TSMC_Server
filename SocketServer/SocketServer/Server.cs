@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
@@ -28,8 +30,26 @@ namespace SocketServer
             Console.WriteLine("等待客戶端連線中... \n");
             TcpClient tmpTcpClient;
             int numberOfClients = 0;
+            const int MaxinumOfThread = 500;
+            List<Thread> threads = new List<Thread>();
             while (true)
             {
+                if (threads.Count >= MaxinumOfThread)
+                {
+                    List<int> rmTmpList = new List<int>();
+                    for (int i = 0; i < threads.Count; i++)
+                    {
+                        if (threads[i].ThreadState == ThreadState.Aborted)
+                        {
+                            rmTmpList.Add(i);
+                        }
+                    }
+                    for (int i = 0; i < rmTmpList.Count; i++)
+                    {
+                        threads.RemoveAt(rmTmpList[i]);
+                    }
+                    Thread.Sleep(500);
+                }
                 try
                 {
                     //建立與客戶端的連線
@@ -43,14 +63,17 @@ namespace SocketServer
                         myThread.IsBackground = true;
                         myThread.Start();
                         myThread.Name = tmpTcpClient.Client.RemoteEndPoint.ToString();
+                        threads.Add(myThread);
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                     Console.Read();
+                    break;
                 }
             }
+            Console.WriteLine();
         }
     }
 }

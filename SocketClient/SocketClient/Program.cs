@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace SocketClient
 {
@@ -14,41 +16,42 @@ namespace SocketClient
         {
 
             //先建立IPAddress物件,IP為欲連線主機之IP
+
+            //開始連線
+
+            const int clientNum = 10000;
             IPAddress[] ipAddr = Dns.GetHostAddresses("localhost");
             IPEndPoint ipEnd = new IPEndPoint(ipAddr[0], 8000);
             TcpListener tcpListener = new TcpListener(ipEnd);
-            TcpClient tcpClient = new TcpClient();
-            //開始連線
-            try
+            // List<TcpClient> clientList = new List<TcpClient>();
+            Random rng = new Random();
+            for (int i = 0; i < clientNum; i++)
             {
-                Console.WriteLine("主機IP=" + ipAddr.ToString());
-                Console.WriteLine("連線至主機中...\n");
-                tcpClient.Connect("127.0.0.1", 8000);
-                if (tcpClient.Connected)
+                TcpClient tcpClient = new TcpClient();
+                try
                 {
-                    Console.WriteLine("連線成功!");
-                    CommunicationBase cb = new CommunicationBase();
-                    int cnt = 0;
-                    while (true)
+                    tcpClient.ConnectAsync("127.0.0.1", 8000).Wait(2147483647);
+                    if (tcpClient.Connected)
                     {
-                        string s = Console.ReadLine();
+                        Console.WriteLine("連線成功");
+                        CommunicationBase cb = new CommunicationBase();
+                        string s = rng.Next(1, 500).ToString();
                         cb.SendMsg(s, tcpClient);
-                        Console.WriteLine(cb.ReceiveMsg(tcpClient));
+                        Console.WriteLine("send done.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("連線失敗!");
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Console.WriteLine("連線失敗!");
-                    Console.Read();
+                    i--;
+                    Console.WriteLine("Server拒絕連線，重新連線中...");
+                    Thread.Sleep(1000);
                 }
-                
             }
-            catch (Exception ex)
-            {
-                tcpClient.Close();
-                Console.WriteLine(ex.Message);
-                Console.Read();
-            }
+            Console.ReadLine();
         }
         public static int Main(String[] args)
         {
@@ -57,5 +60,5 @@ namespace SocketClient
         }
     }
 
-    
+
 }

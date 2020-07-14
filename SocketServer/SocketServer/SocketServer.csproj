@@ -90,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileWriter.cs" />
     <Compile Include="CmdExec.cs" />
     <Compile Include="CommunicationBase.cs" />
     <Compile Include="HandleClient.cs" />

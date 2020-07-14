@@ -20,21 +20,15 @@ namespace SocketServer
         {
             try
             {
-                CmdExec exec = new CmdExec();
-                while (true)
-                {
-                    CommunicationBase cb = new CommunicationBase();
-                    string msg = cb.ReceiveMsg(this.mTcpClient);
-                    Console.WriteLine("Client ID: {0} Msg: {1}", id.ToString(), msg + "\n");
-                    string response = exec.Exec(msg);
-                    cb.SendMsg(response, this.mTcpClient);
-                }
+                CommunicationBase cb = new CommunicationBase();
+                string msg = cb.ReceiveMsg(this.mTcpClient, this.id);
+                Console.WriteLine("Client ID: {0} R: {1}", id.ToString(), msg + "\n");;
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 Console.WriteLine("客戶端強制關閉連線!");
                 this.mTcpClient.Close();
-                Console.Read();
             }
         } 
     } 
