@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -8,101 +9,58 @@ namespace Test_Client
 {
     class Program
     {
-        
+        ////
+        /// 先幫 server寫分配ID
+        /// 再把 client 做 send random num
+        /// 把 Server 接受到的 R ，做 sleep(R)
+        /// 
+        /// 
+        /// 醒來後再將指令寫入檔案
+        /// 結束後，將結束訊息寫入檔案
+        /// 找可以看thread的程式觀察
+        /// 再把 client 主程式改成多 client
+
         static void Main(string[] args)
         {
-            ///
-            Console.WriteLine("Client Main Start~");
 
-            client client = new client();
-            client.ClientStart();
+            List<client> clients = new List<client>();
+                
+            int maxNum = 10000;
 
+            for (int i = 0; i < maxNum; i++) {
+
+                //// 新增 client
+                Console.WriteLine("New Thread " + (i+1));
+                client client = new client();
+                Thread t = new Thread(
+                    new ThreadStart(client.ClientStart));
+                t.Start();
+            }
+
+
+
+
+            /*** 小黑窗傳送訊息
             while (true)
             {
                 //// 讀取 Input 
                 // 從 command line 得到 input
-                string msg;
-                Console.WriteLine("Please Enter your input...");
-                msg = Console.ReadLine();
-                Console.WriteLine("");
+                //string msg;
+                //Console.WriteLine("Please Enter your input...");
+                //msg = Console.ReadLine();
+                //Console.WriteLine("");
 
-            
-                // 傳送 input 給 server
-                client.SendMsg(msg);
+                //// 傳送 input 給 server
+                //client.SendMsg(msg);
 
-                // 接收 server 訊息
-                client.ReceiveMsg();
+                //// 接收 server 訊息
+                //client.ReceiveMsg();
 
             }
-
+            ***/
         }
     }
 
-    class client
-    {
-        string serverIP = "LocalHost";
-        int port = 8787;
-        TcpClient _client;
 
-        public void ClientStart()
-        {
-            _client = new TcpClient(serverIP, port);
-
-            Console.WriteLine("Client Start~\n");
-
-        }
-
-        public void SendMsg(string msg) {
-
-            int byteCount = Encoding.ASCII.GetByteCount(msg);
-            byte[] sendData = new byte[byteCount];
-            sendData = Encoding.ASCII.GetBytes(msg );
-
-            NetworkStream stream = _client.GetStream();
-            stream.Write(sendData, 0, sendData.Length);
-
-        }
-
-        public void ReceiveMsg() {
-
-            while (true) {
-                Console.WriteLine("trying to receive msg form server\n");
-
-                byte[] receivedBuffer = new byte[100];
-
-                NetworkStream stream = _client.GetStream();
-
-                stream.Read(receivedBuffer, 0, receivedBuffer.Length);
-
-                Console.WriteLine(receivedBuffer.ToString());
-
-                StringBuilder msg = new StringBuilder();
-
-                foreach (byte b in receivedBuffer)
-                {
-                    if (b.Equals(00)) // 00 == NULL
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        msg.Append(Convert.ToChar(b).ToString());
-                    }
-
-                }
-
-                Console.WriteLine(msg.ToString() + " | Len :" + msg.Length);
-
-                Console.WriteLine("Receive finish");
-                break;
-
-            }
-
-
-        }
-
-
-
-    }
 
 }

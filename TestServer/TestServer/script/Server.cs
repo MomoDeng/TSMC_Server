@@ -10,7 +10,9 @@ public class Server
 	IPAddress ip = Dns.GetHostEntry("LocalHost").AddressList[0];
 	int port = 8787;
 	TcpListener _server;
+	IdHandler IdHandler = new IdHandler();
 
+	List<Caller> _Callers = new List<Caller>();
 
     public Server()
 	{
@@ -22,6 +24,7 @@ public class Server
 		try
 		{
 			_server.Start();
+			
 			Console.WriteLine("Server Started...");
 
 		}
@@ -30,6 +33,7 @@ public class Server
 			Console.WriteLine(ex.ToString());
 
 		}
+		TxtHandler.CreatTxt();
 		this.NewClient();
 	}
 
@@ -38,37 +42,28 @@ public class Server
 		List<TcpClient> LTcpC = new List<TcpClient>();
 
 		while (true) {
-			Console.WriteLine("trying to connect new client...");
+			//Console.WriteLine("trying to connect new client...");
 
 			//// 嘗試與新的client 做連結
 			TcpClient client = default(TcpClient); // 等待新的 client
 			client = _server.AcceptTcpClient();  //接受client
 
-            Console.WriteLine("add: " + $"({client})");
+            //Console.WriteLine("add: " + $"({client})");
 
 			LTcpC.Add(client);
 
 			//// 開 Thread 給此 client
-			Console.WriteLine("");
-			Console.WriteLine("trying to creat new Thread for Caller...");
-			Caller newCaller = new Caller(client);
+			//Console.WriteLine("");
+			//Console.WriteLine("trying to creat new Thread for Caller...");
+			Caller newCaller = new Caller(client, IdHandler.GetNewId());
+			_Callers.Add(newCaller);	
 			Thread t = new Thread(
 				new ThreadStart(newCaller.CallerStart));
 			t.Start();
 
-			if (LTcpC.Count == 2) {
-				if (LTcpC[0].Equals(LTcpC[1]))
-				{
-					Console.WriteLine("SSSSSSSSSSSSSSSSSSame  ");
-				}
-				else {
-					Console.WriteLine("NNNNNNNNNNNNNN Same  ");
 
-				}
-			}
-
-			Console.WriteLine("finish creat new Thread for Caller...");
-			Console.WriteLine("");
+			//Console.WriteLine("finish creat new Thread for Caller...");
+			//Console.WriteLine("");
 		}
 
 	}
@@ -76,82 +71,3 @@ public class Server
 
 }
 
-
-public class Caller {
-
-	TcpClient _client;
-	
-
-	public Caller(TcpClient client) {
-		_client = client;
-	}
-
-	public void CallerStart() {
-		Console.WriteLine("Caller Start~~~");
-		string _msg = string.Empty;
-		string _repMsg = string.Empty; //response Msg
-
-		while (true) {
-			_msg = ReceiveMsg();
-			_repMsg = Table.GetMsgRespose(_msg);
-			Thread.Sleep(1000);
-			SendMsg(_repMsg);
-			Console.WriteLine("\n\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ \n");
-		}
-
-	}
-
-	public string ReceiveMsg() {
-		Console.WriteLine("---GetMsg Start---");
-
-		byte[] receivedBuffer = new byte[_client.ReceiveBufferSize];
-
-        NetworkStream stream = _client.GetStream();
-		StringBuilder msg = new StringBuilder();
-
-		/// stream 要準備好才可讀取
-		if (stream.CanRead) {
-			do
-			{
-				stream.Read(receivedBuffer, 0, receivedBuffer.Length);
-
-				foreach (byte b in receivedBuffer)
-				{
-					if (b.Equals(00)){
-						break; } // 00 == NULL
-					else
-					{	msg.Append(Convert.ToChar(b).ToString());}
-				}
-			} while (stream.DataAvailable);
-		}
-
-
-
-		Console.WriteLine(msg.ToString());
-		Console.WriteLine("---GetMsg Over---");
-		return msg.ToString();
-
-	}
-
-    public void SendMsg(string _repMsg) {
-		Console.WriteLine("---SendMsg Start---");
-
-        int byteCount = Encoding.ASCII.GetByteCount(_repMsg);
-        byte[] sendData = new byte[byteCount];
-        sendData = Encoding.ASCII.GetBytes(_repMsg);
-
-		NetworkStream stream = _client.GetStream();
-		stream = _client.GetStream();
-
-		/// stream 要準備好才可寫
-		if (stream.CanWrite) {
-			stream.Write(sendData, 0, sendData.Length);
-		}
-		
-
-		Console.WriteLine("Send: " + _repMsg);
-		Console.WriteLine("---SendMsg over---");
-
-	}
-
-}
