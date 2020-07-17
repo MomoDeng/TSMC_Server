@@ -10,10 +10,8 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-
             Server _server = new Server();
-            _server.ServerStart();
-            
+            _server.ServerStart();     
         }
     }
 }

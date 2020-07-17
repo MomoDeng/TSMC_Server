@@ -18,14 +18,8 @@ public static class TxtHandler
 
     public static void CreatTxt() {
 
-		Console.WriteLine("CreatTxt");
+		//Console.WriteLine("CreatTxt");
 
-		_path = System.IO.Directory.GetCurrentDirectory();
-		_path = System.AppDomain.CurrentDomain.BaseDirectory;
-
-		_path = _path + "..\\..\\..\\";
-		_path = _path + "Data\\";
-		_path = _path + "XLOGS" + ".txt";
 		_path =  "XLOGS" + ".txt"; // 會在bin李
 
 		Thread t = new Thread(
@@ -38,7 +32,7 @@ public static class TxtHandler
 		//// 寫 “Client ID sleep R milliseconds and ready to leave now.”
 		string s = String.Empty;
 		s = "Client " + Id + " sleep " + r + " milliseconds and ready to leave now. ";
-		Console.WriteLine(s);
+		//Console.WriteLine(s);
 
 		//// 塞入queue
 		_queueStr.Enqueue(s);
@@ -50,7 +44,7 @@ public static class TxtHandler
 		//// 寫  “Client ID leaves!!”
 		string s = String.Empty;
 		s = "Client " +  Id + " leaves!!";
-		Console.WriteLine(s);
+		//Console.WriteLine(s);
 
 		//// 塞入queue
 		_queueStr.Enqueue(s);

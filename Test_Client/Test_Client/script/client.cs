@@ -18,8 +18,6 @@ public class client
 
     public void Act() {
 
-        //Console.WriteLine("Act Start~");
-
         //// 隨機產生亂數並作為訊息，傳送給 Server
         Random rnd = new Random();
         int min = 1;
@@ -32,12 +30,12 @@ public class client
         //// 如果Server說結束則關掉
         if (s == "over")
         {
-            Console.WriteLine("Client Close:   ");
+            //Console.WriteLine("Client Close:   ");
             this.CloseCLient();
         }
         else
         {
-            Console.WriteLine("There are still some msg");
+            //Console.WriteLine("There are still some msg");
         }
     }
 
@@ -68,43 +66,52 @@ public class client
 
     public string ReceiveMsg()
     {
-
-
-
-        //while (true) {
         //Console.WriteLine("trying to receive msg form server\n");
 
         byte[] receivedBuffer = new byte[_client.ReceiveBufferSize];
-
         NetworkStream stream = _client.GetStream();
+        int numOfBytesRead ;
+        string msg = string.Empty;
 
-        StringBuilder msg = new StringBuilder();
+        if (stream.CanRead){
+            do{
+                numOfBytesRead = stream.Read(receivedBuffer, 0, receivedBuffer.Length);
+                msg = Encoding.Default.GetString(receivedBuffer, 0, numOfBytesRead);
 
-        if (stream.CanRead)
-        {
-            do
-            {
-                stream.Read(receivedBuffer, 0, receivedBuffer.Length);
-
-                foreach (byte b in receivedBuffer)
-                {
-                    if (b.Equals(00))
-                    {
-                        break;
-                    } // 00 == NULL
-                    else
-                    { msg.Append(Convert.ToChar(b).ToString()); }
-                }
             } while (stream.DataAvailable);
         }
 
-        //Console.WriteLine(msg.ToString() + " | Len :" + msg.Length);
+        //Console.WriteLine(msg + " | Len :" + msg.Length);
+
+        return msg;
+
+        //StringBuilder msg = new StringBuilder();
+
+        //if (stream.CanRead)
+        //{
+        //    do
+        //    {
+        //        stream.Read(receivedBuffer, 0, receivedBuffer.Length);
+
+        //        foreach (byte b in receivedBuffer)
+        //        {
+        //            if (b.Equals(00))
+        //            {
+        //                break;
+        //            } // 00 == NULL
+        //            else
+        //            { msg.Append(Convert.ToChar(b).ToString()); }
+        //        }
+        //    } while (stream.DataAvailable);
+        //}
+
+
 
         //Console.WriteLine("Receive finish");
 
-        return msg.ToString();
 
-        //}
+
+
 
 
     }

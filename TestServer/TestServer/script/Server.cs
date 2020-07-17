@@ -12,7 +12,7 @@ public class Server
 	TcpListener _server;
 	IdHandler IdHandler = new IdHandler();
 
-	List<Caller> _Callers = new List<Caller>();
+	List<Callee> _Callees = new List<Callee>();
 
     public Server()
 	{
@@ -33,37 +33,25 @@ public class Server
 			Console.WriteLine(ex.ToString());
 
 		}
-		TxtHandler.CreatTxt();
+		//TxtHandler.CreatTxt();
 		this.NewClient();
 	}
 
 	public void NewClient() {
 
-		List<TcpClient> LTcpC = new List<TcpClient>();
-
 		while (true) {
-			//Console.WriteLine("trying to connect new client...");
 
 			//// 嘗試與新的client 做連結
 			TcpClient client = default(TcpClient); // 等待新的 client
 			client = _server.AcceptTcpClient();  //接受client
 
-            //Console.WriteLine("add: " + $"({client})");
-
-			LTcpC.Add(client);
-
 			//// 開 Thread 給此 client
-			//Console.WriteLine("");
-			//Console.WriteLine("trying to creat new Thread for Caller...");
-			Caller newCaller = new Caller(client, IdHandler.GetNewId());
-			_Callers.Add(newCaller);	
+			Callee newCaller = new Callee(client, IdHandler.GetNewId());
+			_Callees.Add(newCaller);	
 			Thread t = new Thread(
-				new ThreadStart(newCaller.CallerStart));
+				new ThreadStart(newCaller.CalleeStart));
 			t.Start();
 
-
-			//Console.WriteLine("finish creat new Thread for Caller...");
-			//Console.WriteLine("");
 		}
 
 	}
