@@ -23,6 +23,7 @@ namespace SocketClient
             IPAddress[] ipAddr = Dns.GetHostAddresses("localhost");
             IPEndPoint ipEnd = new IPEndPoint(ipAddr[0], 8000);
             TcpListener tcpListener = new TcpListener(ipEnd);
+            List<TcpClient> clientList = new List<TcpClient>();
             // List<TcpClient> clientList = new List<TcpClient>();
             Random rng = new Random();
             for (int i = 0; i < clientNum; i++)
@@ -30,9 +31,10 @@ namespace SocketClient
                 TcpClient tcpClient = new TcpClient();
                 try
                 {
-                    tcpClient.ConnectAsync("127.0.0.1", 8000).Wait(2147483647);
+                    tcpClient.Connect("127.0.0.1", 8000);
                     if (tcpClient.Connected)
                     {
+                        clientList.Add(tcpClient);
                         Console.WriteLine("連線成功");
                         CommunicationBase cb = new CommunicationBase();
                         string s = rng.Next(1, 500).ToString();

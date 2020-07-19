@@ -90,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnPool.cs" />
     <Compile Include="FileWriter.cs" />
     <Compile Include="CmdExec.cs" />
     <Compile Include="CommunicationBase.cs" />

@@ -16,13 +16,13 @@ namespace SocketServer
             this.mTcpClient = _tmpTcpClient;
             this.id = _id;
         }
-        public void Communicate()
+        public void Communicate(object state)
         {
             try
             {
                 CommunicationBase cb = new CommunicationBase();
                 string msg = cb.ReceiveMsg(this.mTcpClient, this.id);
-                Console.WriteLine("Client ID: {0} R: {1}", id.ToString(), msg + "\n");;
+                // Console.WriteLine("Client ID: {0} R: {1}", id.ToString(), msg + "\n");;
             }
             catch (Exception e)
             {
