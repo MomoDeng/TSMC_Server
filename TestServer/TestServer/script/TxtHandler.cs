@@ -14,9 +14,11 @@ public static class TxtHandler
     static Queue<string> _queueStr = new Queue<string>();
 	static bool _isWriting = false;
 
-	
+	private static ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
 
-    public static void CreatTxt() {
+
+
+	public static void CreatTxt() {
 
 		//Console.WriteLine("CreatTxt");
 
@@ -36,6 +38,7 @@ public static class TxtHandler
 
 		//// 塞入queue
 		_queueStr.Enqueue(s);
+		//EnQueData(s);
 
 	}
 
@@ -48,34 +51,75 @@ public static class TxtHandler
 
 		//// 塞入queue
 		_queueStr.Enqueue(s);
+		//EnQueData(s);
 
+	}
+
+	public static void EnQueData(string s) {
+		_lock.EnterWriteLock();
+		try
+		{
+			_queueStr.Enqueue(s);
+		}
+		catch (Exception ex){
+			Console.WriteLine(ex.Message);
+		}
+		finally
+		{
+			_lock.ExitWriteLock();
+		}
 	}
 
 	public static void WritingData() {
 		while (true) {
-			if (_isWriting) {
-				Thread.Sleep(5); //有人在寫資料，等一下
-			}
-			else {
-				//// 若有東西則寫，無則等待
+
+			_lock.EnterWriteLock();
+			try
+			{
 				if (_queueStr.Count != 0) {
-					_isWriting = true;
-
-					//開始寫入值
-					_fileStream = new FileStream(_path, FileMode.Append, FileAccess.Write); 
-					sw = new StreamWriter(_fileStream);
-					sw.WriteLine(_queueStr.Dequeue());
-					sw.Close();
-					_fileStream.Close();
-
-					_isWriting = false;
-				}
-				else {
+                    //// 開始寫入值
+                    _fileStream = new FileStream(_path, FileMode.Append, FileAccess.Write);
+                    sw = new StreamWriter(_fileStream);
+                    sw.WriteLine(_queueStr.Dequeue());
+                    sw.Close();
+                    _fileStream.Close();
+                }
+                else {
+					//// yield ??
 					Thread.Sleep(5);
 				}
 			}
-		}
-	}
+			finally {
+				_lock.ExitWriteLock();
+			}
+
+            #region		NoLockVer
+            //if (_isWriting) {
+            //	Thread.Sleep(5); //有人在寫資料，等一下
+            //}
+            //else {
+            //	//// 若有東西則寫，無則等待
+            //	if (_queueStr.Count != 0) {
+            //		_isWriting = true;
+
+            //		//開始寫入值
+            //		_fileStream = new FileStream(_path, FileMode.Append, FileAccess.Write); 
+            //		sw = new StreamWriter(_fileStream);
+            //		sw.WriteLine(_queueStr.Dequeue());
+            //		sw.Close();
+            //		_fileStream.Close();
+
+            //		_isWriting = false;
+            //	}
+            //	else {
+            //		Thread.Sleep(5);
+            //	}
+            //}
+
+            #endregion
+
+        }
+    }
 
 	public static void DisposeStream() {
 		//sw.Close();

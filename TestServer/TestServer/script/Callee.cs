@@ -6,9 +6,9 @@ using System.Threading;
 public class Callee
 {
 
-	TcpClient _client;
-	int _ID;
-	FileWriter fw;
+	private TcpClient _client;
+	private int _ID;
+	private FileWriter fw;
 
 	public Callee(TcpClient client, int ID)
 	{
@@ -20,7 +20,7 @@ public class Callee
 	public void CalleeStart()
 	{
 		//Console.WriteLine("Caller Start:   " +  _ID);
-		string _msg; 
+		string _msg;
 		string _repMsg;  //response Msg
 
 		//// 從 Client 端得到訊息
@@ -49,13 +49,11 @@ public class Callee
 
 
 
-
-
-
 		//// 紀錄結束置 XLOGS ，寫  “Client ID leaves!!”
 		fw.WriteData("Client " + _ID + " leaves!!");
 		//TxtHandler.WriteLeaveData(_ID);
 
+		//Console.WriteLine(_ID + " over");
 
 	}
 
@@ -66,7 +64,7 @@ public class Callee
 		byte[] receivedBuffer = new byte[_client.ReceiveBufferSize];
 		NetworkStream stream = _client.GetStream();
 		string msg = string.Empty;
-		int numOfBytesRead ;
+		int numOfBytesRead;
 
 		///// stream 要準備好才可讀取
 		if (stream.CanRead) {
@@ -100,10 +98,12 @@ public class Callee
 			stream.Write(sendData, 0, sendData.Length);
 		}
 
-
 		//Console.WriteLine("Send: " + _repMsg);
 		//Console.WriteLine("---SendMsg over---");
+	}
 
+	public int GetID() {
+		return _ID;
 	}
 
 }

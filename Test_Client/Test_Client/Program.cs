@@ -15,7 +15,7 @@ namespace Test_Client
 
             List<client> clients = new List<client>();
                 
-            int maxNum = 100;
+            const int maxNum = 10000;
 
             for (int i = 0; i < maxNum; i++) {
 
@@ -27,6 +27,7 @@ namespace Test_Client
                 t.Start();
             }
 
+            #region 小黑窗版本
             /*** 小黑窗傳送訊息
             while (true)
             {
@@ -45,6 +46,7 @@ namespace Test_Client
 
             }
             ***/
+            #endregion
         }
     }
 }

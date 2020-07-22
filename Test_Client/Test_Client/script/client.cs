@@ -30,7 +30,8 @@ public class client
         //// 如果Server說結束則關掉
         if (s == "over")
         {
-            //Console.WriteLine("Client Close:   ");
+            //Console.WriteLine("Client Close  " );
+            //Console.Read();
             this.CloseCLient();
         }
         else
@@ -84,36 +85,6 @@ public class client
         //Console.WriteLine(msg + " | Len :" + msg.Length);
 
         return msg;
-
-        //StringBuilder msg = new StringBuilder();
-
-        //if (stream.CanRead)
-        //{
-        //    do
-        //    {
-        //        stream.Read(receivedBuffer, 0, receivedBuffer.Length);
-
-        //        foreach (byte b in receivedBuffer)
-        //        {
-        //            if (b.Equals(00))
-        //            {
-        //                break;
-        //            } // 00 == NULL
-        //            else
-        //            { msg.Append(Convert.ToChar(b).ToString()); }
-        //        }
-        //    } while (stream.DataAvailable);
-        //}
-
-
-
-        //Console.WriteLine("Receive finish");
-
-
-
-
-
-
     }
 
     public void CloseCLient()
