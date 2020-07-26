@@ -9,8 +9,19 @@ public class FileWriter
 	private static StreamWriter _sw;
 	private string _path = "XLOGS" + ".txt";
 
-	public void WriteData(string _data) {
+	private float _timeAll = 0f;
+	
 
+
+
+	public FileWriter() {
+		
+	}
+
+	public void WriteData(string _data) {
+		DateTime TimeStart;
+		DateTime TimeEnd;
+		TimeStart = DateTime.Now;
 		_lock.EnterWriteLock();
 		try
 		{
@@ -22,10 +33,17 @@ public class FileWriter
 			}
 		}
 		finally {
+			TimeEnd = DateTime.Now;
+			_timeAll = _timeAll + float.Parse( ((TimeSpan)(TimeEnd - TimeStart)).TotalMilliseconds.ToString() );
+			printLockTime();
 			_lock.ExitWriteLock();
 		}
 
 
+	}
+
+	public void printLockTime() {
+		Console.WriteLine("Lock Time: " + _timeAll);
 	}
 
 

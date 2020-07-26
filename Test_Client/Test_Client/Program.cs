@@ -15,7 +15,7 @@ namespace Test_Client
 
             List<client> clients = new List<client>();
                 
-            const int maxNum = 10000;
+            const int maxNum = 10;
 
             for (int i = 0; i < maxNum; i++) {
 
