@@ -35,11 +35,11 @@ namespace SocketClient
                     if (tcpClient.Connected)
                     {
                         clientList.Add(tcpClient);
-                        Console.WriteLine("連線成功");
+                        //Console.WriteLine("連線成功");
                         CommunicationBase cb = new CommunicationBase();
                         string s = rng.Next(1, 500).ToString();
                         cb.SendMsg(s, tcpClient);
-                        Console.WriteLine("send done.");
+                       // Console.WriteLine("send done.");
                     }
                     else
                     {
@@ -53,6 +53,7 @@ namespace SocketClient
                     Thread.Sleep(1000);
                 }
             }
+            Console.WriteLine("完成");
             Console.ReadLine();
         }
         public static int Main(String[] args)

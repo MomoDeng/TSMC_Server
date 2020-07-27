@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,8 @@ namespace SocketServer
         private static ReaderWriterLockSlim lock_ = new ReaderWriterLockSlim();
         public void WriteData(string dataWh, string filePath)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            // stopWatch.Start();
             lock_.EnterWriteLock();
             try
             {
@@ -26,6 +29,12 @@ namespace SocketServer
             {
                 lock_.ExitWriteLock();
             }
+            // stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            ts.Hours, ts.Minutes, ts.Seconds,
+            ts.Milliseconds / 10);
+            // Console.WriteLine("RunTime " + elapsedTime);
         }
     }
 }
