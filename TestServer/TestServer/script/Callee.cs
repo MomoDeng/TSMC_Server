@@ -17,15 +17,21 @@ public class Callee
 		fw = new FileWriter();
 	}
 
-	public void CalleeStart()
+	public void CalleeStart(object state)
 	{
 		//Console.WriteLine("Caller Start:   " +  _ID);
-		string _msg;
+		string _msg = "";
 		string _repMsg;  //response Msg
 
 		//// 從 Client 端得到訊息
 		int _Rtime;
-		_msg = ReceiveMsg();
+		try {
+			_msg = ReceiveMsg();
+		}
+		catch (NullReferenceException ex) {
+			Console.WriteLine("Receive Msg fall");
+		}
+		
 
 		//// 將訊息轉成變數
 		_Rtime = int.Parse(_msg);
@@ -35,7 +41,7 @@ public class Callee
 
 		//// 醒來後，開 XLOGS ，寫 “Client ID sleep R milliseconds and ready to leave now.”
 		//Console.WriteLine("Thread No." + _ID + " Wake up");
-		fw.WriteData("Client " + _ID + " sleep " + _Rtime + " milliseconds and ready to leave now. ");
+		fw.WriteData("Client " + _ID + " sleep " + _Rtime + " milliseconds and ready to leave now. \n");
 		//TxtHandler.WriteSleepData(_ID, _Rtime);
 
 		//// 結束連結
@@ -50,7 +56,7 @@ public class Callee
 
 
 		//// 紀錄結束置 XLOGS ，寫  “Client ID leaves!!”
-		fw.WriteData("Client " + _ID + " leaves!!");
+		fw.WriteData("Client " + _ID + " leaves!!\n");
 		//TxtHandler.WriteLeaveData(_ID);
 
 		//Console.WriteLine(_ID + " over");
@@ -60,8 +66,19 @@ public class Callee
 	public string ReceiveMsg()
 	{
 		//Console.WriteLine("---GetMsg Start---");
-
-		byte[] receivedBuffer = new byte[_client.ReceiveBufferSize];
+		byte[] receivedBuffer = new byte[0];
+		try {
+			receivedBuffer = new byte[_client.ReceiveBufferSize];
+		}
+		catch (NullReferenceException ex) {
+			Console.WriteLine("Receive Msg fall buff");
+			Console.WriteLine(ex.Message);
+		}
+		catch (Exception ex) {
+			Console.WriteLine("Receive Msg fall buffer");
+			Console.WriteLine(ex.Message);
+		}
+		
 		NetworkStream stream = _client.GetStream();
 		string msg = string.Empty;
 		int numOfBytesRead;

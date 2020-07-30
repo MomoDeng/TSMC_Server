@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 public class client
 {
@@ -42,7 +43,14 @@ public class client
 
     public void ClientStart()
     {
-        _client = new TcpClient(serverIP, port);
+        try {
+            _client = new TcpClient(serverIP, port);
+        } catch (Exception ex ){
+            Console.WriteLine("建立連結失敗...");
+            Thread.Sleep(1000);
+            this.ClientStart();
+        }
+        
 
         //Console.WriteLine("Client Start~\n");
 
@@ -52,15 +60,22 @@ public class client
     public void SendMsg(string msg)
     {
         //Console.WriteLine("SendMsg Start~");
-        int byteCount = Encoding.ASCII.GetByteCount(msg);
-        byte[] sendData = new byte[byteCount];
-        sendData = Encoding.ASCII.GetBytes(msg);
+        try {
+            int byteCount = Encoding.ASCII.GetByteCount(msg);
+            byte[] sendData = new byte[byteCount];
+            sendData = Encoding.ASCII.GetBytes(msg);
 
-        NetworkStream stream = _client.GetStream();
-        if (stream.CanWrite)
-        {
-            stream.Write(sendData, 0, sendData.Length);
+            NetworkStream stream = _client.GetStream();
+            if (stream.CanWrite)
+            {
+                stream.Write(sendData, 0, sendData.Length);
+            }
         }
+        catch (Exception ex) {
+            Console.WriteLine("無法傳送資料...");
+            Thread.Sleep(500);
+        }
+
 
 
     }
@@ -68,23 +83,33 @@ public class client
     public string ReceiveMsg()
     {
         //Console.WriteLine("trying to receive msg form server\n");
+        try
+        {
+            byte[] receivedBuffer = new byte[_client.ReceiveBufferSize];
+            NetworkStream stream = _client.GetStream();
+            int numOfBytesRead;
+            string msg = string.Empty;
 
-        byte[] receivedBuffer = new byte[_client.ReceiveBufferSize];
-        NetworkStream stream = _client.GetStream();
-        int numOfBytesRead ;
-        string msg = string.Empty;
+            if (stream.CanRead)
+            {
+                do
+                {
+                    numOfBytesRead = stream.Read(receivedBuffer, 0, receivedBuffer.Length);
+                    msg = Encoding.Default.GetString(receivedBuffer, 0, numOfBytesRead);
 
-        if (stream.CanRead){
-            do{
-                numOfBytesRead = stream.Read(receivedBuffer, 0, receivedBuffer.Length);
-                msg = Encoding.Default.GetString(receivedBuffer, 0, numOfBytesRead);
-
-            } while (stream.DataAvailable);
+                } while (stream.DataAvailable);
+            }
+            return msg;
         }
+        catch (Exception ex) {
+            Console.WriteLine("無法獲得資料");
+            Thread.Sleep(500);
+            return "";
+        }
+
 
         //Console.WriteLine(msg + " | Len :" + msg.Length);
 
-        return msg;
     }
 
     public void CloseCLient()

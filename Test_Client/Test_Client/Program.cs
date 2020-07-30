@@ -15,16 +15,19 @@ namespace Test_Client
 
             List<client> clients = new List<client>();
                 
-            const int maxNum = 10;
+            const int maxNum = 10000;
 
             for (int i = 0; i < maxNum; i++) {
 
                 //// 新增 client
                 //Console.WriteLine("New Thread " + (i+1));
+
                 client client = new client();
                 Thread t = new Thread(
                     new ThreadStart(client.ClientStart));
                 t.Start();
+
+
             }
 
             #region 小黑窗版本
