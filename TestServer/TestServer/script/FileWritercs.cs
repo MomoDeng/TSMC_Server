@@ -79,7 +79,7 @@ public class FileWriter
 	}
 
 	public static void WriteSoul() {
-		bool haveToWait = false;
+		
 		while (true) {
 			if (_DataWritingQue.Count == 0)
 			{

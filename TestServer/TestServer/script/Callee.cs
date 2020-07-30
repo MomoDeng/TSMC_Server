@@ -23,18 +23,64 @@ public class Callee
 		string _msg = "";
 		string _repMsg;  //response Msg
 
+		bool isExIn = false;
+
 		//// 從 Client 端得到訊息
-		int _Rtime;
-		try {
-			_msg = ReceiveMsg();
-		}
-		catch (NullReferenceException ex) {
-			Console.WriteLine("Receive Msg fall");
-		}
-		
+		_msg = ReceiveMsg();
+
+
+		int _Rtime = ParseMsg(_msg);
+
+		#region Exception Ver
+		//      int _Rtime = 0;
+		//try {
+		//	_msg = ReceiveMsg();
+		//}
+		//catch (NullReferenceException ex) {
+		//	Console.WriteLine("Receive Msg fall");
+		//}
+
+		//try {
+		//	_Rtime = ParseMsg(_msg);
+		//}
+		//catch (FormatException ex) {
+		//	Console.WriteLine("FormatException ex");
+		//	_Rtime = 1000;
+		//	isExIn = true;
+		//	Console.WriteLine("------start------");
+		//	Console.WriteLine(ex.Message);
+
+		//	Console.WriteLine(ex.StackTrace);
+		//	Console.WriteLine("------end------");
+
+
+		//	throw ;
+		//}
+		//catch (Exception ex) {
+		//	Console.WriteLine("normal ex");
+		//}
+		#endregion
+
+		//_Rtime = int.Parse(_msg);
 
 		//// 將訊息轉成變數
-		_Rtime = int.Parse(_msg);
+		//try {
+		//	_Rtime = int.Parse(_msg);
+		//}
+		//catch (FormatException ex) {
+		//	Console.WriteLine("catch FormatException");
+		//	throw ex;
+		//	throw;
+
+		//}
+		//catch (Exception ex) {
+		//	Console.WriteLine("cant handle ex");
+		//	throw ex;
+		//}
+
+		if (isExIn) {
+			Console.WriteLine("" + _Rtime);
+		}
 
 		//// 根據變數 Sleep(R)
 		Thread.Sleep(_Rtime);
@@ -63,7 +109,12 @@ public class Callee
 
 	}
 
-	public string ReceiveMsg()
+    private int ParseMsg(string msg)
+    {
+		return int.Parse(msg);
+	}
+
+    public string ReceiveMsg()
 	{
 		//Console.WriteLine("---GetMsg Start---");
 		byte[] receivedBuffer = new byte[0];

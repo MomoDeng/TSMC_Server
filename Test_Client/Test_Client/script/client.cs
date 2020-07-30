@@ -22,8 +22,23 @@ public class client
         //// 隨機產生亂數並作為訊息，傳送給 Server
         Random rnd = new Random();
         int min = 1;
-        int max = 501;
-        this.SendMsg(rnd.Next(min, max).ToString()); // 1 <= x < 501 
+        int max = 502;
+        int randomNum = rnd.Next(min, max); // min <= x < max
+
+
+        this.SendMsg(randomNum.ToString());
+
+        #region Exception Ver
+        //if (randomNum < 0)
+        //{
+        //    this.SendMsg(randomNum.ToString());
+        //} else if (randomNum < 300) {
+        //    this.SendMsg("A type over Num " + randomNum.ToString());
+        //}
+        //else {
+        //    this.SendMsg("B type over Num " + randomNum.ToString());
+        //}
+        #endregion
 
         //// 等待 Server 回覆
         string s = this.ReceiveMsg();

@@ -118,6 +118,24 @@ public class Server
 		TcpClient client = _callingMachine.GetClientFromQueue();
 		Callee callee = new Callee(client, IdHandler.GetNewId());
 		ThreadPool.QueueUserWorkItem(new WaitCallback(callee.CalleeStart));
+
+		//try {
+		//	ThreadPool.QueueUserWorkItem(new WaitCallback(callee.CalleeStart));
+		//}
+		//catch (FormatException ex) {
+		//	Console.WriteLine("GiveService2client catch");
+		//	client.Close();
+		//	return;
+		//}
+		//catch (Exception ex) {
+		//	Console.WriteLine("go through GiveService2client");
+		//	client.Close();
+		//	Console.WriteLine("client close");
+		//	return;
+		//}
+		
+
+
 	}
 
 	public bool IsThreadAvailable() {
